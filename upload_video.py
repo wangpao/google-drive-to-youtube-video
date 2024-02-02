@@ -13,12 +13,11 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
 
-
 # Maximum number of times to retry before giving up.
 MAX_RETRIES = 10
 
 # Always retry when these exceptions are raised.
-RETRIABLE_EXCEPTIONS = (http.client.HttpLib2Error, IOError, http.client.NotConnected,
+RETRIABLE_EXCEPTIONS = (IOError, http.client.NotConnected,
   http.client.IncompleteRead, http.client.ImproperConnectionState,
   http.client.CannotSendRequest, http.client.CannotSendHeader,
   http.client.ResponseNotReady, http.client.BadStatusLine)
@@ -50,7 +49,6 @@ https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 
 VALID_PRIVACY_STATUSES = ("public", "private", "unlisted")
 
-
 def get_authenticated_service(args):
   flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
     scope=YOUTUBE_UPLOAD_SCOPE,
@@ -62,7 +60,8 @@ def get_authenticated_service(args):
   if credentials is None or credentials.invalid:
     credentials = run_flow(flow, storage, args)
 
-  return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, credentials=credentials)
+  return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+    credentials=credentials)
 
 def initialize_upload(youtube, options):
   tags = None
